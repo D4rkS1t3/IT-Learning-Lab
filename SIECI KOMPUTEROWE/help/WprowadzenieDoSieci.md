@@ -23,5 +23,8 @@ Klient wysyła zapytanie -> serwer je przetwarza -> odsyła odpowiedź. Serwer m
 Klient - to urządzenie lub program, który inicjuje komunikację z serwerem i korzysta z jego usług. Klient wysyła żądanie -> serwer odpowiada. Klientem może być: urządzenie (komputer, telefon, tablet), aplikacja (przeglądarka, program pocztowy), inny serwer (np. mikroserwisy). Przykłady klientów: klient WWW aplikacja: Chrome, Firefox, Edge - łączy się z serwerami WWW i pobiera strony (HTTP/HTTPS). Klient pocztowy aplikacja: Outlook, Thunderbird - odbiera/wysyła e-maile przez serwery SMTP, IMAP lub POP3.Aplikacje mobilne - każda aplikacja korzystająca z internetu jest klientem (np. TikTok, Messenger).
 
 
+
+
+
 Linki / źródła
 - ...
