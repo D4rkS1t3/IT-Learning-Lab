@@ -151,8 +151,8 @@ Ramka trafia do switcha.
 Switch:
 – odczytuje adres MAC docelowy,
 – sprawdza w swojej tablicy MAC, na którym porcie znajduje się urządzenie,
-– jeśli zna port → wysyła ramkę tylko tam,
-– jeśli nie zna → wykonuje flooding, wysyła ramkę na wszystkie porty oprócz wejściowego.
+– jeśli zna port -> wysyła ramkę tylko tam,
+– jeśli nie zna -> wykonuje flooding, wysyła ramkę na wszystkie porty oprócz wejściowego.
 
 Switch działa po MAC, a nie po IP.
 #
