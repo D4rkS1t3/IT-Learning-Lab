@@ -391,8 +391,11 @@ Wszystkie idą do Internetu przez jedno publiczne IP:
 Router robi:
 
 PC-------------- Port źródłowy (LAN)------	Port po PAT--------Publiczne IP
+
 192.168.1.10---------50000---------------------40001-----------89.77.52.100
+
 192.168.1.20---------50000---------------------40002-----------89.77.52.100
+
 192.168.1.30---------50000---------------------40003-----------89.77.52.100
 
 Dzięki temu wie, do którego komputera odesłać odpowiedź.
