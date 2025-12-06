@@ -36,8 +36,7 @@ Zanim żądanie HTTP zostanie wysłane, przeglądarka musi nawiązać połączen
 
 **KROK 3 — Nawiązanie Połączenia TCP (3-way handshake)**
 
-[Image of TCP 3-Way Handshake]
-:** Połączenie odbywa się z adresem `212.56.93.112:80`. Sekwencja: **SYN** $\rightarrow$ serwer, **SYN-ACK** $\rightarrow$ klient, **ACK** $\rightarrow$ serwer.
+Połączenie odbywa się z adresem `212.56.93.112:80`. Sekwencja: **SYN** $\rightarrow$ serwer, **SYN-ACK** $\rightarrow$ klient, **ACK** $\rightarrow$ serwer.
 
 **KROK 4 — Wysyłanie Żądania HTTP:** Przeglądarka wysyła żądanie:
 * `GET /plik.html HTTP/1.1`
