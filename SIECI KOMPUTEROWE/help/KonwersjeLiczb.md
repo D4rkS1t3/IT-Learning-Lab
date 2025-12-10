@@ -1,123 +1,164 @@
-#  KONWERSJA LICZB — METODA UNIWERSALNA PRZEZ SYSTEM BINARNY
+# SYSTEMY LICZBOWE I KONWERSJE — METODA UNIWERSALNA (BINARNA)
 
-Systemy liczbowe:
-* **Dziesiętny (Dec)** – Podstawa **10**
-* **Dwójkowy (Bin)** – Podstawa **2**
-* **Ósemkowy (Okt)** – Podstawa **8**
-* **Szesnastkowy (Hex)** – Podstawa **16**
+W informatyce używamy głównie czterech systemów pozycyjnych:
+* **Dziesiętny (Dec, base 10)**
+* **Dwójkowy (Bin, base 2)**
+* **Ósemkowy (Oct, base 8)**
+* **Szesnastkowy (Hex, base 16)**
 
-> **Metoda Uniwersalna:** Konwersja z dowolnego systemu na dowolny (np. Hex $\leftrightarrow$ Dec, Hex $\leftrightarrow$ Okt) jest **najbardziej niezawodna i jednolita**, gdy odbywa się pośrednio przez **system binarny**.
-
----
-
-## 1. Systemy Liczbowe i Ich Zastosowanie
-
-### System Dwójkowy (Binarny, Base 2) 
-* **Cyfry:** 0 i 1 (bity)
-* **Wartość:** Każda pozycja to potęga $2$ ($2^0, 2^1, 2^2, \dots$).
-* **Dlaczego Binarnie?** Wynika to z **ograniczeń technologicznych** i natury sprzętu. Komputer operuje stanami elektrycznymi: włączony (1) i wyłączony (0). Cała informatyka sprowadza się do reprezentacji danych jako ciągów tych dwóch stanów.
-
-### System Dziesiętny (Decymalny, Base 10)
-* **Cyfry:** 0–9
-* **Zastosowanie:** Interfejs użytkownika, wprowadzanie danych przez człowieka. Komputer musi zamienić ten format na binarny do przetwarzania.
-
-### System Szesnastkowy (Hex, Base 16)
-* **Cyfry:** 0–9, A–F (A=10, F=15)
-* **Właściwość:** $1$ cyfra Hexa $= 4$ bity. Jest to najbardziej **kompaktowy** zapis danych binarnych.
-* **Zastosowanie:**
-    * **Adresacja Sieci:** Adresy **MAC** (np. `00-1A-2B-3C-4D-5E`).
-    * **Programowanie:** Reprezentacja kolorów (np. `#FF0000` dla czerwonego) i pamięci.
-    * **Kody Błędów i Hash'e:** Reprezentacja wartości skrótów (np. MD5, SHA256).
-
-### System Ósemkowy (Oktalny, Base 8)
-* **Cyfry:** 0–7
-* **Właściwość:** $1$ cyfra Oktalna $= 3$ bity. Używany, gdy potrzeba szybkiego i skróconego zapisu 3-bitowych grup.
-* **Zastosowanie:** Ustawienia **uprawnień plików** w systemach Linux/Unix (np. `chmod 755` — gdzie każda cyfra reprezentuje 3 bity uprawnień: R-W-X).
+> **Najważniejszy jest system binarny.** Używamy go jako **uniwersalnego pośrednika** w każdej konwersji (np. Hex $\rightarrow$ Bin $\rightarrow$ Dec). Ta strategia gwarantuje poprawność i ujednolica wszystkie metody przeliczania.
 
 ---
 
-## 2. Tabela Wartości (4-bitowe Grupy)
+## 1. Dlaczego Komputery Używają Systemu Dwójkowego?
 
-| Wartość Dziesiętna | Binarnie (4 bity) | Hex |
-| :---: | :---: | :---: |
-| 0 | 0000 | 0 |
-| 7 | 0111 | 7 |
-| 10 | 1010 | A |
-| 15 | 1111 | F |
+Powód jest **technologiczny i sprzętowy**:
+* Układy elektroniczne łatwo rozróżniają **dwa stabilne stany**:
+    * **0 (OFF):** Niski poziom napięcia / Brak napięcia.
+    * **1 (ON):** Wysoki poziom napięcia / Obecność napięcia.
+* System binarny jest **najbardziej odporny na zakłócenia** i błędy, ponieważ zwiększenie liczby stanów (np. 10 w systemie Dec) zwiększa ryzyko błędnej interpretacji.
+* **Bramki logiczne** (AND, OR, NOT) operują naturalnie na bitach.
+
+Dlatego wszystko w komputerze jest **binarną reprezentacją**:
+* Adresy IP/MAC, instrukcje procesora, dane w pamięci.
 
 ---
 
-## 3. Metoda Konwersji Uniwersalnej (Przez Binarny)
+## 2. Zastosowania Poszczególnych Systemów
 
-**Wszystkie konwersje opierają się na jednej z dwóch operacji na bitach:**
-1.  **Grupowanie (np. z Bin na Hex).**
-2.  **Rozwijanie (np. z Hex na Bin).**
+### **Binarny (0/1)**
+* Podstawowa reprezentacja danych i logiki w elektronice.
+* Adresacja pamięci, instrukcje maszynowe, maski sieciowe.
 
-### 3.1. Dziesiętny $\leftrightarrow$ Binarny
+### **Hex (Szesnastkowy)**
+* **Właściwość:** $\mathbf{1 \text{ znak hex} = 4 \text{ bity}}$. Jest to **skompresowany** zapis długich ciągów binarnych.
+* **Zastosowania:**
+    * Adresy **MAC** (`AA:BB:CC:DD:EE:FF`).
+    * Kody kolorów w sieci/webie (np. `#FFA500`).
+    * Zapis danych w debugowaniu i sieci (`0xFF`, `0x1A`).
+    * Adresy **IPv6**.
+
+### **Octal (Ósemkowy)**
+* **Właściwość:** $\mathbf{1 \text{ cyfra octal} = 3 \text{ bity}}$. Skuteczny skrót dla 3-bitowych grup.
+* **Zastosowania:**
+    * Ustawienia **praw dostępu** w systemach Unix/Linux (`chmod 755`), gdzie każda cyfra reprezentuje 3 bity uprawnień (r-w-x).
+
+### **Dziesiętny**
+* **Zastosowanie:** Interfejs dla człowieka. Komputer przetwarza go na system binarny, aby móc działać. W sieciach: adresy IPv4, porty TCP/UDP.
+
+---
+
+## 3. Najważniejsza Tabela Konwersji (4-bitowe Grupy) 
+
+| Dec | Bin  | Oct | Hex |
+| :---: | :---: | :---: | :---: |
+| 0 | 0000 | 0 | 0 |
+| 7 | 0111 | 7 | 7 |
+| 8 | 1000 | 10 | 8 |
+| 10 | 1010 | 12 | A |
+| 15 | 1111 | 17 | F |
+
+---
+
+## 4. Uniwersalna Metoda Konwersji (Przez Binarny)
+
+Metoda opiera się na trzech krokach:
+1.  **Liczba $\rightarrow$ Binarna** (Rozwinięcie potęgowe).
+2.  **Binarna $\rightarrow$ Grupowanie** (Po 3 lub 4 bity, zależnie od celu).
+3.  **Grupowanie $\rightarrow$ System Docelowy** (Hex lub Oct).
+
+### 4.1. Dziesiętny $\leftrightarrow$ Binarny (Rozwijanie Potęg)
 
 #### A) Dziesiętny $\rightarrow$ Binarny
-* **Metoda:** Dzielenie przez 2 (daje reszty, które są cyframi binarnymi).
-* **Przykład:** $25_{10} \rightarrow 11001_2$ (jak w poprzednich notatkach).
+* **Metoda:** Rozpisywanie liczby na **sumę potęg 2**.
+* **Przykład:** $156_{10}$
+    * $156 = 128 + 16 + 8 + 4$ ($2^7 + 2^4 + 2^3 + 2^2$)
+    * **Wynik:** $\mathbf{10011100_2}$
 
 #### B) Binarny $\rightarrow$ Dziesiętny
-* **Metoda:** Sumowanie potęg 2.
-* **Przykład:** $101101_2 \rightarrow 45_{10}$ (jak w poprzednich notatkach).
+* **Metoda:** Sumowanie potęg 2 dla każdego bitu ustawionego na 1.
+* **Przykład:** $101101_2$
+    * $1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 32 + 8 + 4 + 1 = 45$
+    * **Wynik:** $\mathbf{45_{10}}$
 
-### 3.2. Konwersje Skrócone (Bin $\leftrightarrow$ Hex i Bin $\leftrightarrow$ Okt)
+### 4.2. Binarny $\leftrightarrow$ Hex (Grupowanie po 4 Bity)
 
-#### A) Hex $\leftrightarrow$ Binarny (Grupowanie/Rozwijanie po 4 Bity)
-* **Hex $\rightarrow$ Bin:** Rozwiń każdą cyfrę Hexa na **4 bity**.
-    * **Przykład:** $AF_{16} \rightarrow 1010$ (A) $1111$ (F) $\rightarrow \mathbf{10101111_2}$
-* **Bin $\rightarrow$ Hex:** Pogrupuj bity po 4 (od prawej) i zamień na Hex.
-    * **Przykład:** $11010110_2 \rightarrow 1101$ (D) $0110$ (6) $\rightarrow \mathbf{D6_{16}}$
+#### A) Bin $\rightarrow$ Hex
+* **Metoda:** Grupuj bity po **cztery** (od prawej), zamień na cyfry Hex. 
+* **Przykład:** $11010110_2$
+    * $1101 = D$
+    * $0110 = 6$
+    * **Wynik:** $\mathbf{D6_{16}}$
 
-#### B) Oktalny $\leftrightarrow$ Binarny (Grupowanie/Rozwijanie po 3 Bity)
-* **Okt $\rightarrow$ Bin:** Rozwiń każdą cyfrę Oktalną na **3 bity**.
-    * **Przykład:** $73_8 \rightarrow 111$ (7) $011$ (3) $\rightarrow \mathbf{111011_2}$
-* **Bin $\rightarrow$ Okt:** Pogrupuj bity po 3 (od prawej) i zamień na Oktal.
-    * **Przykład:** $101110_2 \rightarrow 101$ (5) $110$ (6) $\rightarrow \mathbf{56_8}$
+#### B) Hex $\rightarrow$ Bin
+* **Metoda:** Rozwiń każdą cyfrę Hexa na **cztery** bity.
+* **Przykład:** $AF_{16}$
+    * $A = 1010$
+    * $F = 1111$
+    * **Wynik:** $\mathbf{10101111_2}$
 
-### 3.3. Konwersje Pośrednie (Uniwersalna Metoda)
+### 4.3. Binarny $\leftrightarrow$ Octal (Grupowanie po 3 Bity)
 
-Aby zamienić dowolny system na dowolny, zawsze używaj systemu binarnego jako kroku pośredniego.
+#### A) Bin $\rightarrow$ Oct
+* **Metoda:** Grupuj bity po **trzy** (od prawej), zamień na cyfry Octal. 
+* **Przykład:** $101110_2$
+    * $101 = 5$
+    * $110 = 6$
+    * **Wynik:** $\mathbf{56_8}$
 
-#### Przykład 1: Hex $\rightarrow$ Dziesiętny
-1.  **Hex $\rightarrow$ Binarny** (Rozwiń po 4 bity).
-    * $3B_{16} \rightarrow 0011$ (3) $1011$ (B) $\rightarrow 111011_2$
-2.  **Binarny $\rightarrow$ Dziesiętny** (Sumuj potęgi 2).
-    * $1 \cdot 2^5 + 1 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 1 \cdot 2^0$
-    * $32 + 16 + 8 + 0 + 2 + 1 = \mathbf{59_{10}}$
-
-#### Przykład 2: Ósemkowy $\rightarrow$ Szesnastkowy
-1.  **Oktalny $\rightarrow$ Binarny** (Rozwiń po 3 bity).
-    * $73_8 \rightarrow 111011_2$
-2.  **Binarny $\rightarrow$ Szesnastkowy** (Grupuj po 4 bity).
-    * Dopełnij zerami z lewej, by mieć pełne grupy: $0011 \ 1011$
-    * $0011 = 3$
-    * $1011 = B$
-    * **Wynik:** $\mathbf{3B_{16}}$
-
----
-
-## 4. Konwersje Praktyczne w Sieciach (CIDR)
-
-Zastosowanie konwersji binarnych do masek sieci jest kluczowe, ponieważ maska CIDR (`/X`) jest **liczbą bitów ustawionych na 1**.
-
-**Przykład: Maska /20**
-Maska składa się z 20 jedynek i 12 zer (łącznie 32 bity).
-$11111111.11111111.11110000.00000000$
-* 1. oktet: $11111111_2 = 255_{10}$
-* 2. oktet: $11111111_2 = 255_{10}$
-* 3. oktet: $11110000_2 = 240_{10}$ ($128+64+32+16$)
-* 4. oktet: $00000000_2 = 0_{10}$
-* **Wynik:** Maska $/20$ to $\mathbf{255.255.240.0}$
+#### B) Oct $\rightarrow$ Bin
+* **Metoda:** Rozwiń każdą cyfrę Octalną na **trzy** bity.
+* **Przykład:** $73_8$
+    * $7 = 111$
+    * $3 = 011$
+    * **Wynik:** $\mathbf{111011_2}$
 
 ---
 
-## 5. Podsumowanie
+## 5. Konwersje Pośrednie (Uniwersalna Metoda W Działaniu)
 
-**Kluczowe Zasady Konwersji:**
-1.  **Binarny to język komputera.** Wszystko musi zostać do niego zamienione.
-2.  **Hex i Oktal** są używane jako **skróty** do zapisywania długich ciągów binarnych.
-3.  Konwersja między Hex i Bin (4 bity) lub Okt i Bin (3 bity) jest natychmiastowa.
-4.  Wszystkie inne konwersje (np. Hex $\leftrightarrow$ Dec) są najpewniejsze, gdy używają **systemu binarnego jako pośrednika**.
+### 5.1. Hex $\rightarrow$ Dziesiętny (Przez Binarny)
+1.  **Hex $\rightarrow$ Bin:** $3A_{16} \rightarrow 00111010_2$
+2.  **Bin $\rightarrow$ Dec:** $32 + 16 + 8 + 2 = \mathbf{58_{10}}$
+
+### 5.2. Dziesiętny $\rightarrow$ Hex (Przez Binarny)
+1.  **Dec $\rightarrow$ Bin:** $230_{10} \rightarrow 11100110_2$
+2.  **Bin $\rightarrow$ Hex:** Grupuj po 4: $1110$ ($E$) $0110$ ($6$) $\rightarrow \mathbf{E6_{16}}$
+
+### 5.3. Octal $\rightarrow$ Hex (Przez Binarny)
+1.  **Oct $\rightarrow$ Bin:** $73_8 \rightarrow 111011_2$
+2.  **Bin $\rightarrow$ Hex:** Grupuj po 4: $0011$ ($3$) $1011$ ($B$) $\rightarrow \mathbf{3B_{16}}$
+
+---
+
+## 6. Konwersje do Wszystkich Systemów w Jednym Przykładzie
+
+Weźmy liczbę: **$125_{10}$**
+
+### 1. Krok Centralny: $125_{10} \rightarrow$ Binarny
+$125 = 64 + 32 + 16 + 8 + 4 + 1$
+$\rightarrow \mathbf{01111101_2}$
+
+### 2. Bin $\rightarrow$ Hex
+Grupujemy po 4: $0111$ ($7$) $1101$ ($D$)
+$\rightarrow \mathbf{7D_{16}}$
+
+### 3. Bin $\rightarrow$ Oct
+Grupujemy po 3: $011$ ($3$) $111$ ($7$) $101$ ($5$)
+$\rightarrow \mathbf{375_8}$
+
+---
+
+## 7. Podsumowanie Najważniejszych Zasad
+
+1.  **Metoda Uniwersalna:** Zawsze zamieniaj liczbę na **binarną** i używaj jej jako podstawy do grupowania/rozwijania do systemu docelowego.
+2.  **Hex i Oct** są skrótami binarnego, dlatego konwersja jest natychmiastowa:
+    * Hex $\leftrightarrow$ Bin: **4 bity**.
+    * Oct $\leftrightarrow$ Bin: **3 bity**.
+3.  **Decimal $\leftrightarrow$ Binary** wymaga rozwijania lub dzielenia potęg.
+
+---
+
+## 8. Najważniejsze Jedno Zdanie
+
+> **Zawsze zamieniamy liczby na binarne, a dopiero potem grupujemy według systemu docelowego — to najprostsza i najpewniejsza metoda konwersji, która działa dla wszystkich systemów informatycznych.**
