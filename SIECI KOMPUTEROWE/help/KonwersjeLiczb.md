@@ -1,165 +1,123 @@
-# KONWERSJA LICZB — PEŁNE I PROSTE OPRACOWANIE
+#  KONWERSJA LICZB — METODA UNIWERSALNA PRZEZ SYSTEM BINARNY
 
-Systemy liczbowe są podstawą całej informatyki. Reprezentują wartości za pomocą różnych podstaw (baz).
-
+Systemy liczbowe:
 * **Dziesiętny (Dec)** – Podstawa **10**
 * **Dwójkowy (Bin)** – Podstawa **2**
 * **Ósemkowy (Okt)** – Podstawa **8**
 * **Szesnastkowy (Hex)** – Podstawa **16**
 
-> **W Informatyce:** Najczęściej używamy: **Binarny ↔ Szesnastkowy ↔ Dziesiętny**.
+> **Metoda Uniwersalna:** Konwersja z dowolnego systemu na dowolny (np. Hex $\leftrightarrow$ Dec, Hex $\leftrightarrow$ Okt) jest **najbardziej niezawodna i jednolita**, gdy odbywa się pośrednio przez **system binarny**.
 
 ---
 
-## 1. Systemy Liczbowe — Krótkie Wyjaśnienie
-
-### System Dziesiętny (Base 10)
-* **Cyfry:** 0–9
-* **Zasada:** Wartość to suma iloczynów cyfry i potęgi podstawy (10).
-* **Przykład:** $482 = 4 \cdot 10^2 + 8 \cdot 10^1 + 2 \cdot 10^0$
+## 1. Systemy Liczbowe i Ich Zastosowanie
 
 ### System Dwójkowy (Binarny, Base 2) 
 * **Cyfry:** 0 i 1 (bity)
-* **Zasada:** Każda pozycja to potęga 2.
-* **Przykład:** $1011_2 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 1 \cdot 2^0 = 8 + 0 + 2 + 1 = 11_{10}$
+* **Wartość:** Każda pozycja to potęga $2$ ($2^0, 2^1, 2^2, \dots$).
+* **Dlaczego Binarnie?** Wynika to z **ograniczeń technologicznych** i natury sprzętu. Komputer operuje stanami elektrycznymi: włączony (1) i wyłączony (0). Cała informatyka sprowadza się do reprezentacji danych jako ciągów tych dwóch stanów.
+
+### System Dziesiętny (Decymalny, Base 10)
+* **Cyfry:** 0–9
+* **Zastosowanie:** Interfejs użytkownika, wprowadzanie danych przez człowieka. Komputer musi zamienić ten format na binarny do przetwarzania.
+
+### System Szesnastkowy (Hex, Base 16)
+* **Cyfry:** 0–9, A–F (A=10, F=15)
+* **Właściwość:** $1$ cyfra Hexa $= 4$ bity. Jest to najbardziej **kompaktowy** zapis danych binarnych.
+* **Zastosowanie:**
+    * **Adresacja Sieci:** Adresy **MAC** (np. `00-1A-2B-3C-4D-5E`).
+    * **Programowanie:** Reprezentacja kolorów (np. `#FF0000` dla czerwonego) i pamięci.
+    * **Kody Błędów i Hash'e:** Reprezentacja wartości skrótów (np. MD5, SHA256).
 
 ### System Ósemkowy (Oktalny, Base 8)
 * **Cyfry:** 0–7
-* **Zastosowanie:** Rzadziej, np. do ustawiania uprawnień w systemach Linux (`chmod 755`).
-* **Kluczowa Właściwość:** $1$ cyfra ósemkowa $= 3$ bity binarne.
-
-### System Szesnastkowy (Hex, Base 16)
-* **Cyfry:** 0–9 oraz A, B, C, D, E, F.
-    * A=10, B=11, C=12, D=13, E=14, F=15.
-* **Zasada:** Każda pozycja to potęga 16.
-* **Przykład:** $1A_{16} = 1 \cdot 16^1 + 10 \cdot 16^0 = 16 + 10 = 26_{10}$
-* **Kluczowa Właściwość:** $1$ cyfra szesnastkowa $= 4$ bity binarne (jest to **najbardziej kompaktowy** zapis danych binarnych).
+* **Właściwość:** $1$ cyfra Oktalna $= 3$ bity. Używany, gdy potrzeba szybkiego i skróconego zapisu 3-bitowych grup.
+* **Zastosowanie:** Ustawienia **uprawnień plików** w systemach Linux/Unix (np. `chmod 755` — gdzie każda cyfra reprezentuje 3 bity uprawnień: R-W-X).
 
 ---
 
-## 2. Tabela Wartości (Fundament Konwersji)
+## 2. Tabela Wartości (4-bitowe Grupy)
 
-Ta tabela pokazuje, jak wygląda 4-bitowa reprezentacja (tzw. nibble):
-
-| Wartość Dziesiętna | Binarnie | Hex |
+| Wartość Dziesiętna | Binarnie (4 bity) | Hex |
 | :---: | :---: | :---: |
 | 0 | 0000 | 0 |
-| 1 | 0001 | 1 |
 | 7 | 0111 | 7 |
-| 8 | 1000 | 8 |
 | 10 | 1010 | A |
 | 15 | 1111 | F |
 
 ---
 
-## 3. Konwersje Między Systemami
+## 3. Metoda Konwersji Uniwersalnej (Przez Binarny)
 
-### 3.1. Dziesiętny $\rightarrow$ Binarny
-**Metoda dzielenia przez 2.**
+**Wszystkie konwersje opierają się na jednej z dwóch operacji na bitach:**
+1.  **Grupowanie (np. z Bin na Hex).**
+2.  **Rozwijanie (np. z Hex na Bin).**
 
-**Przykład:** Konwersja $25_{10}$
-* $25 / 2 = 12$ reszta **1**
-* $12 / 2 = 6$ reszta **0**
-* $6 / 2 = 3$ reszta **0**
-* $3 / 2 = 1$ reszta **1**
-* $1 / 2 = 0$ reszta **1**
+### 3.1. Dziesiętny $\leftrightarrow$ Binarny
 
-> **Wynik:** Czytamy reszty od dołu do góry: $\mathbf{25_{10} = 11001_2}$ 
+#### A) Dziesiętny $\rightarrow$ Binarny
+* **Metoda:** Dzielenie przez 2 (daje reszty, które są cyframi binarnymi).
+* **Przykład:** $25_{10} \rightarrow 11001_2$ (jak w poprzednich notatkach).
 
-### 3.2. Binarny $\rightarrow$ Dziesiętny
-**Metoda sumowania potęg.**
+#### B) Binarny $\rightarrow$ Dziesiętny
+* **Metoda:** Sumowanie potęg 2.
+* **Przykład:** $101101_2 \rightarrow 45_{10}$ (jak w poprzednich notatkach).
 
-**Przykład:** Konwersja $101101_2$
-$1 \cdot 2^5 + 0 \cdot 2^4 + 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0$
-$= 32 + 0 + 8 + 4 + 0 + 1$
-$= 45$
+### 3.2. Konwersje Skrócone (Bin $\leftrightarrow$ Hex i Bin $\leftrightarrow$ Okt)
 
-> **Wynik:** $\mathbf{101101_2 = 45_{10}}$
+#### A) Hex $\leftrightarrow$ Binarny (Grupowanie/Rozwijanie po 4 Bity)
+* **Hex $\rightarrow$ Bin:** Rozwiń każdą cyfrę Hexa na **4 bity**.
+    * **Przykład:** $AF_{16} \rightarrow 1010$ (A) $1111$ (F) $\rightarrow \mathbf{10101111_2}$
+* **Bin $\rightarrow$ Hex:** Pogrupuj bity po 4 (od prawej) i zamień na Hex.
+    * **Przykład:** $11010110_2 \rightarrow 1101$ (D) $0110$ (6) $\rightarrow \mathbf{D6_{16}}$
 
-### 3.3. Dziesiętny $\rightarrow$ Hex
-**Metoda dzielenia przez 16.**
+#### B) Oktalny $\leftrightarrow$ Binarny (Grupowanie/Rozwijanie po 3 Bity)
+* **Okt $\rightarrow$ Bin:** Rozwiń każdą cyfrę Oktalną na **3 bity**.
+    * **Przykład:** $73_8 \rightarrow 111$ (7) $011$ (3) $\rightarrow \mathbf{111011_2}$
+* **Bin $\rightarrow$ Okt:** Pogrupuj bity po 3 (od prawej) i zamień na Oktal.
+    * **Przykład:** $101110_2 \rightarrow 101$ (5) $110$ (6) $\rightarrow \mathbf{56_8}$
 
-**Przykład:** Konwersja $254_{10}$
-* $254 / 16 = 15$ reszta $\mathbf{14 \text{ (E)}}$
-* $15 / 16 = 0$ reszta $\mathbf{15 \text{ (F)}}$
+### 3.3. Konwersje Pośrednie (Uniwersalna Metoda)
 
-> **Wynik:** Czytamy reszty od dołu do góry: $\mathbf{254_{10} = FE_{16}}$
+Aby zamienić dowolny system na dowolny, zawsze używaj systemu binarnego jako kroku pośredniego.
 
-### 3.4. Hex $\rightarrow$ Dziesiętny
-**Metoda sumowania potęg 16.**
+#### Przykład 1: Hex $\rightarrow$ Dziesiętny
+1.  **Hex $\rightarrow$ Binarny** (Rozwiń po 4 bity).
+    * $3B_{16} \rightarrow 0011$ (3) $1011$ (B) $\rightarrow 111011_2$
+2.  **Binarny $\rightarrow$ Dziesiętny** (Sumuj potęgi 2).
+    * $1 \cdot 2^5 + 1 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 1 \cdot 2^0$
+    * $32 + 16 + 8 + 0 + 2 + 1 = \mathbf{59_{10}}$
 
-**Przykład:** Konwersja $3B_{16}$
-$3 \cdot 16^1 + 11 \cdot 16^0 = 48 + 11 = 59$
-
-> **Wynik:** $\mathbf{3B_{16} = 59_{10}}$
-
-### 3.5. Binarny $\leftrightarrow$ Hex (Najszybsza Konwersja)
-
-#### Binarny $\rightarrow$ Hex
-**Grupowanie po 4 bity (od prawej).**
-* **Przykład:** $11010110_2$
-    * $1101 = D$
-    * $0110 = 6$
-    * **Wynik:** $\mathbf{D6_{16}}$
-
-#### Hex $\rightarrow$ Binarny
-**Rozwijanie każdej cyfry na 4 bity.**
-* **Przykład:** $AF_{16}$
-    * $A = 1010$
-    * $F = 1111$
-    * **Wynik:** $\mathbf{10101111_2}$
-
-### 3.6. Binarny $\leftrightarrow$ Oktalny
-#### Binarny $\rightarrow$ Oktalny
-**Grupowanie po 3 bity (od prawej).**
-* **Przykład:** $101110_2$
-    * $101 = 5$
-    * $110 = 6$
-    * **Wynik:** $\mathbf{56_8}$
-
-#### Oktalny $\rightarrow$ Binarny
-**Rozwijanie każdej cyfry na 3 bity.**
-* **Przykład:** $73_8$
-    * $7 = 111$
-    * $3 = 011$
-    * **Wynik:** $\mathbf{111011_2}$
+#### Przykład 2: Ósemkowy $\rightarrow$ Szesnastkowy
+1.  **Oktalny $\rightarrow$ Binarny** (Rozwiń po 3 bity).
+    * $73_8 \rightarrow 111011_2$
+2.  **Binarny $\rightarrow$ Szesnastkowy** (Grupuj po 4 bity).
+    * Dopełnij zerami z lewej, by mieć pełne grupy: $0011 \ 1011$
+    * $0011 = 3$
+    * $1011 = B$
+    * **Wynik:** $\mathbf{3B_{16}}$
 
 ---
 
-## 4. Konwersje Praktyczne (Maski Sieci)
+## 4. Konwersje Praktyczne w Sieciach (CIDR)
 
-Znajomość konwersji jest kluczowa w sieciach, zwłaszcza przy analizie masek podsieci (CIDR).
+Zastosowanie konwersji binarnych do masek sieci jest kluczowe, ponieważ maska CIDR (`/X`) jest **liczbą bitów ustawionych na 1**.
 
-| Dziesiętna Wartość | Binarnie |
-| :---: | :---: |
-| 255 | **11111111** |
-| 254 | **11111110** |
-| 240 | **11110000** |
-| 224 | **11100000** |
-| 192 | **11000000** |
-| 128 | **10000000** |
-| 0 | 00000000 |
-
-**Przykład: Maska /24**
-Maska /24 oznacza, że 24 bity są ustawione na 1 (część sieci).
-$\mathbf{255.255.255.0} = 11111111.11111111.11111111.00000000$
+**Przykład: Maska /20**
+Maska składa się z 20 jedynek i 12 zer (łącznie 32 bity).
+$11111111.11111111.11110000.00000000$
+* 1. oktet: $11111111_2 = 255_{10}$
+* 2. oktet: $11111111_2 = 255_{10}$
+* 3. oktet: $11110000_2 = 240_{10}$ ($128+64+32+16$)
+* 4. oktet: $00000000_2 = 0_{10}$
+* **Wynik:** Maska $/20$ to $\mathbf{255.255.240.0}$
 
 ---
 
-## 5. Szybkie Triki i Zasady
+## 5. Podsumowanie
 
-* **1. Hex $\leftrightarrow$ Binarny jest natychmiastowy:** Ponieważ 1 cyfra Hexa to dokładnie 4 bity, konwersja polega tylko na zamianie/grupowaniu.
-* **2. Potęgi dwójki:** Warto znać potęgi $2^0$ do $2^{10}$ (np. $2^8 = 256$, $2^{10} = 1024$) — ułatwia to natychmiastową konwersję Bin $\rightarrow$ Dec.
-* **3. Błąd:** Najczęstszy błąd to zapomnienie, że system jest **pozycyjny** (wartość zależy od pozycji i potęgi podstawy).
-* **4. Notacja:** Pamiętaj o indeksie dolnym: $\mathbf{25_{10}}$ (dziesiętnie), $\mathbf{11001_2}$ (binarnie), $\mathbf{FE_{16}}$ (hex).
-
----
-
-## 6. Podsumowanie
-
-Systemy liczbowe są **fundamentem** adresacji, sieci, pamięci i programowania.
-
-**Najważniejsze umiejętności:**
-* Konwersja **dziesiętny $\leftrightarrow$ binarny** (metodą potęg i dzielenia).
-* Konwersja **binarny $\leftrightarrow$ hex** (metodą grupowania 4-bitowego).
-* Interpretacja **binarnej maski sieci** w kontekście CIDR (/X).
+**Kluczowe Zasady Konwersji:**
+1.  **Binarny to język komputera.** Wszystko musi zostać do niego zamienione.
+2.  **Hex i Oktal** są używane jako **skróty** do zapisywania długich ciągów binarnych.
+3.  Konwersja między Hex i Bin (4 bity) lub Okt i Bin (3 bity) jest natychmiastowa.
+4.  Wszystkie inne konwersje (np. Hex $\leftrightarrow$ Dec) są najpewniejsze, gdy używają **systemu binarnego jako pośrednika**.
