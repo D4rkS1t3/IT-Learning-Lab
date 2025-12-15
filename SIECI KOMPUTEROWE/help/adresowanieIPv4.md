@@ -274,7 +274,7 @@ Potrzebujemy podsieci:
 
 ---
 
-## Szybka checklista (żeby nie popełniać błędów)
+## Szybka checklista
 - zawsze liczymy hosty: `2^(32−prefix) − 2`
 - dla „równej liczby podsieci” używamy potęg 2
 - skok podsieci: `256 − (oktetu maski)`
