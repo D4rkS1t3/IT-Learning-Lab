@@ -1,6 +1,6 @@
-# IPv4 — teoria + zadania z rozwiązaniami (podsieć, CIDR, VLSM)
+# IPv4 — teoria + zadania (podsieć, CIDR, VLSM)
 
-## 1) IPv4 — podstawy (teoria w pigułce)
+## 1) IPv4 — podstawy
 
 **IPv4** to 32-bitowy adres logiczny zapisywany jako 4 oktety (0–255), np. `192.168.1.10`.
 
